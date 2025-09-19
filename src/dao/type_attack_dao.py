@@ -57,6 +57,30 @@ class TypeAttackDAO(metaclass=Singleton):
             return res["id_attack_type"]
 
 
+    def find_all_attacks2(self, limit: int) -> List[AbsractAttack]:
+        """
+        Get all attacks' names
+        """
+        r = ("SELECT attack_name                        "   
+            "  FROM tp.attack                           "   
+            "  JOIN tp.attack_type USING(id_attack_type)")
+        if isinstance(limit, int):
+            r += f"LIMIT {limit}"
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(r)
+                res = cursor.fetchall()
+                
+        attacks = []
+        if res:
+            for row in res:
+                attacks.append("")
+                print(res)
+
+        return attacks 
+        
+    
+
     def find_all_attacks(self, limit: int):
         """
         Get all attacks' names
