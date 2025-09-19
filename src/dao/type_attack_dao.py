@@ -18,8 +18,8 @@ class TypeAttackDAO(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT *                                  "
-                    "  FROM tp.attack_type                     "
+                    "SELECT *                                 "
+                    "  FROM tp.attack_type                    "
                 )
 
                 # to store raw results
@@ -39,7 +39,7 @@ class TypeAttackDAO(metaclass=Singleton):
 
         return type_attack
 
-    def find_id_by_label(self, label: str) -> Optional[int]:
+    def find_id_by_label(self, label: str, limit: int) -> Optional[int]:
         """
         Get the id_attack_type from the label
         """
@@ -57,11 +57,31 @@ class TypeAttackDAO(metaclass=Singleton):
             return res["id_attack_type"]
 
 
+    def find_all_attacks(self, limit: int):
+        """
+        Get all attacks' names
+        """
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT attack_name     "
+                    "  FROM tp.attack       "
+                    " LIMIT %(limite)s      ",
+                    {"limite": limit},
+                )
+                res = cursor.fetchall()
+
+        if res:
+            return res["attack_name"]
+
+
 if __name__ == "__main__":
     # Pour charger les variables d'environnement contenues dans le fichier .env
     import dotenv
 
     dotenv.load_dotenv(override=True)
 
-    attack_types = TypeAttackDAO().find_all_attack_type()
-    print(attack_types)
+    #attack_types = TypeAttackDAO().find_all_attack_type()
+    #print(attack_types)
+    all_attacks = TypeAttackDAO().find_all_attacks()
+    print(all_attacks)
