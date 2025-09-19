@@ -1,6 +1,7 @@
 from typing import List, Optional
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
+from business_object.attack.abstract_attack import AbstractAttack
 
 
 class TypeAttackDAO(metaclass=Singleton):
@@ -57,7 +58,7 @@ class TypeAttackDAO(metaclass=Singleton):
             return res["id_attack_type"]
 
 
-    def find_all_attacks2(self, limit: int) -> List[AbsractAttack]:
+    def find_all_attacks2(self, limit: int) -> List[AbstractAttack]:
         """
         Get all attacks' names
         """
