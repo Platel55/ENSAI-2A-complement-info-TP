@@ -71,8 +71,15 @@ class TypeAttackDAO(metaclass=Singleton):
                 )
                 res = cursor.fetchall()
 
+        attacks = []
+
         if res:
-            return res["attack_name"]
+            for row in res:
+                attacks.append(row["attack_name"])
+        
+        return attacks 
+
+        
 
 
 if __name__ == "__main__":
@@ -83,5 +90,5 @@ if __name__ == "__main__":
 
     #attack_types = TypeAttackDAO().find_all_attack_type()
     #print(attack_types)
-    all_attacks = TypeAttackDAO().find_all_attacks()
+    all_attacks = TypeAttackDAO().find_all_attacks(limit=10)
     print(all_attacks)
